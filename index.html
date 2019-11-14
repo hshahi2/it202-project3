@@ -16,8 +16,11 @@
                 var randHarm = Math.floor((Math.random() * 400) + 50);
 
                 
-                var healX = 0, healY = randHeal;
-                var harmX = 0, harmY = randHarm;
+//                 var healX = 0, healY = randHeal;
+//                 var harmX = 0, harmY = randHarm;
+                
+                var healX = randHeal, healY = 0;
+                var harmX = randHarm, harmY = 0;
                 
                 var c = document.getElementById("animationCanvas"); 
                 var cc = document.getElementById("animationCanvas");
@@ -42,18 +45,18 @@
                     //
                     // increment coord to "move" l to r
                     // 
-                    healX += 1;
-                    harmX +=1; ////////////
+                    healY += 1;
+                    harmY +=1; ////////////
                     
                     //
                     // handle edge condition
                     // 
-                    if (healX > c.width) {
-                        healX -= c.width;
+                    if (healY > c.width) {
+                        healY -= c.width;
                     }
                     
-                      if (harmX > cc.width) {   ////////////////
-                        harmX -= cc.width;
+                      if (harmY > cc.width) {   ////////////////
+                        harmY -= cc.width;
                     }
                     
                     //
@@ -79,7 +82,7 @@
                     
                     
                     
-                   harmObject.arc(harmX, harmY, 25, 0, Math.PI * 2);              ///////
+                   harmObject.arc(harmX, harmY, 18, 0, Math.PI * 2);              ///////
                    harmObject.closePath();
                    harmObject.fill();
                     
