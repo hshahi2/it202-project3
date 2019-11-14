@@ -9,11 +9,15 @@
                 var background = new Image();
                 background.src = "hs-2014-27-a-print.0.0.jpg";
                 
+                
+                
                 var x = 0, y = 200;
                 var xx = 0, yy = 400;
                 
                 var c = document.getElementById("animationCanvas"); 
                 var cc = document.getElementById("animationCanvas");
+                
+                var ctx = document.getElementById("animationCanvas").getContext("2d");
                 
                 var healObject = c.getContext("2d");
                 healObject.fillStyle = "green";
@@ -23,6 +27,8 @@
                 
                 console.log(c.width, c.height);
                 console.log(cc.width, cc.height);//////
+                
+                console.log(ctx.width, ctx.height);
                 
                 function draw() {
                     // clear the canvas
@@ -52,10 +58,12 @@
                     healObject.beginPath();
                     harmObject.beginPath();//////////
 
-                   //  a circle at the coordinates
-                   healObject.arc(x, y, 25, 0, Math.PI * 2);
+                   //  a square at the coordinates                   
+                   healObject.rect(x,y,25,25);
                    healObject.closePath();
                    healObject.fill();
+                    
+                    
                     
                     
                    harmObject.arc(xx, yy, 25, 0, Math.PI * 2);              ///////
@@ -65,8 +73,20 @@
                    // call again when available
                    window.requestAnimationFrame(draw);
                 }
+                
+//                 function square() {
+//                     ctx.rect(20,20,150,100);
+//                     ctx.fill();
+//                     ctx.stroke();
+//                 }
+
                 // kick it off
                 window.requestAnimationFrame(draw);
+//                                 window.requestAnimationFrame(square);
+
+
+                
+               
             </script>
             
             
