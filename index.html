@@ -1,5 +1,86 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Simple Canvas Animation</title>
+    </head>
+    <body>
+        <canvas id="animationCanvas" width="500" height="500">
+            
+            <script>
+var background = new Image();
+background.src = "hs-2014-27-a-print.0.0.jpg";
+
+
+var x = 0, y = 200;
+var c = document.getElementById("animationCanvas");   
+var healObject = c.getContext("2d");
+healObject.fillStyle = "green";
+
+console.log(c.width, c.height);
+
+function draw() {
+  // clear the canvas
+  healObject.clearRect(0, 0, c.width, c.height);
+
+  
+  
+  // increment coord to "move" l to r
+  x += 1;
+
+  // handle edge condition
+  if (x > c.width) {
+    x -= c.width;
+  }
+
+  // draw objects
+
+  // draw the background image
+  healObject.drawImage(background, 0, 0);
+  
+  // draw a circle
+  // start a new path;  
+  //  comment out begin and close path to see what happens
+  healObject.beginPath();
+
+  //  a circle at the coordinates
+  healObject.arc(x, y, 25, 0, Math.PI * 2);
+  healObject.closePath();
+
+  healObject.fill();
+
+
+
+  // call again when available
+  window.requestAnimationFrame(draw);
+}
+
+
+// kick it off
+window.requestAnimationFrame(draw);
+
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+
+<!-- <!DOCTYPE html>
+<html>
 <body>
 
 <h1>My First Heading</h1>
@@ -9,3 +90,4 @@
 </body>
 </html>
 
+ -->
