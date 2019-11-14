@@ -4,65 +4,76 @@
         <title>Simple Canvas Animation</title>
     </head>
     <body>
-        <canvas id="animationCanvas" width="500" height="500">
-            
+        <canvas id="animationCanvas" width="500" height="500">  
             <script>
-var background = new Image();
-background.src = "hs-2014-27-a-print.0.0.jpg";
-
-
-var x = 0, y = 200;
-var c = document.getElementById("animationCanvas");   
-var healObject = c.getContext("2d");
-healObject.fillStyle = "green";
-
-console.log(c.width, c.height);
-
-function draw() {
-  // clear the canvas
-  healObject.clearRect(0, 0, c.width, c.height);
-
+                var background = new Image();
+                background.src = "hs-2014-27-a-print.0.0.jpg";
+                
+                var x = 0, y = 200;
+                var xx = 0, yy = 400;
+                
+                var c = document.getElementById("animationCanvas"); 
+                var cc = document.getElementById("animationCanvas");
+                
+                var healObject = c.getContext("2d");
+                healObject.fillStyle = "green";
+                
+                var harmObject = cc.getContext("2d"); ///////////////
+                harmObject.fillStyle = "red";////////////
+                
+                console.log(c.width, c.height);
+                console.log(cc.width, cc.height);//////
+                
+                function draw() {
+                    // clear the canvas
+                    // healObject.clearRect(0, 0, c.width, c.height);
+                     
+                    // increment coord to "move" l to r
+                    x += 1;
+                    xx +=1; ////////////
+                    
+                    // handle edge condition
+                    if (x > c.width) {
+                        x -= c.width;
+                    }
+                    
+                      if (xx > cc.width) {   ////////////////
+                        xx -= cc.width;
+                    }
+                    
+                    // draw objects
+                    // draw the background image
+                    healObject.drawImage(background, 0, 0);
+                    harmObject.drawImage(background, 0, 0);///////
   
-  
-  // increment coord to "move" l to r
-  x += 1;
+                    // draw a circle
+                    // start a new path;  
+                    //  comment out begin and close path to see what happens
+                    healObject.beginPath();
+                    harmObject.beginPath();//////////
 
-  // handle edge condition
-  if (x > c.width) {
-    x -= c.width;
-  }
-
-  // draw objects
-
-  // draw the background image
-  healObject.drawImage(background, 0, 0);
-  
-  // draw a circle
-  // start a new path;  
-  //  comment out begin and close path to see what happens
-  healObject.beginPath();
-
-  //  a circle at the coordinates
-  healObject.arc(x, y, 25, 0, Math.PI * 2);
-  healObject.closePath();
-
-  healObject.fill();
-
-
-
-  // call again when available
-  window.requestAnimationFrame(draw);
-}
-
-
-// kick it off
-window.requestAnimationFrame(draw);
-
-
-</script>
-
-</body>
-</html>
+                   //  a circle at the coordinates
+                   healObject.arc(x, y, 25, 0, Math.PI * 2);
+                   healObject.closePath();
+                   healObject.fill();
+                    
+                    
+                   harmObject.arc(xx, yy, 25, 0, Math.PI * 2);              ///////
+                   harmObject.closePath();
+                   harmObject.fill();
+                    
+                   // call again when available
+                   window.requestAnimationFrame(draw);
+                }
+                // kick it off
+                window.requestAnimationFrame(draw);
+            </script>
+            
+            
+        
+            
+            </body>
+        </html>
 
 
 
