@@ -30,17 +30,41 @@ console.log(c.width, c.height);
 console.log(cc.width, cc.height);
 console.log(ctx.width, ctx.height);
 
+// 
+// get the canvas element by ID, set the initial horizontal and vertical 
+// position of object and set the dimensions of the moving object 
+// 
+window.requestAnimationFrame(draw);
+var stage = document.getElementById('animationCanvas'), 
+        ct = stage.getContext('2d'), 
+        startingX = 200, 
+        startingY = 480, 
+        wid = 50, 
+        hei = 20; 
+
+//
+// draw Rectangle function	
+// 	
+function drawRect(startingX,startingY,wid,hei) {
+    ct.fillStyle = '#666'; 
+    ct.fillRect(startingX, startingY, wid, hei); 
+}
 
 
+
+//
+// draw the heal and harm objects and make sure they 
+// are moving from top to bottom 
+// 
 function draw() {
     // clear the canvas
     // healObject.clearRect(0, 0, c.width, c.height);
 
     //
-    // increment coord to "move" l to r
+    // increment coord to "move" top to bottom
     // 
     healY += 1;
-    harmY +=1; ////////////
+    harmY +=1; 
 
     //
     // handle edge condition
@@ -89,37 +113,41 @@ function draw() {
     myText.fillText("Level: " + LEVEL, 200, 50);
     
     
+    //
+    // drawing rectangle on initial load
+    // 
+    drawRect(startingX,startingY,wid,hei); 
     
-    var myCan = document.querySelector("#animationCanvas");
-    var mycontext = myCan.getContext("2d");
+    //
+    // move rectangle inside the canvas using arrow keys
+    // 
+    window.onkeydown = function(event) {
+        var keyPr = event.keyCode; 
+        //
+        // right arrow functionality 
+        // 
+        if(keyPr === 39 && startingX <= 460) { 
+            startingX = startingX + 20; 
+        }
+        //
+        // left arrow functionality 
+        // 
+        else if(keyPr === 37 && startingX > 10) {
+            startingX = startingX - 20; 
+        }
+		
+  	//
+  	// clearing anything drawn on canvas
+    // comment this below do draw path 
+    // 
+    ct.clearRect(0,0, 400, 400);
+  
+    //  
+  	// drawing rectangle at new position
+  	// 
+    drawRect(startingX,startingY,wid,hei);
+};
     
-    function drawTriangle() {
-        mycontext.beginPath();
-        mycontext.moveTo(200, 100);
-        mycontext.lineTo(170, 150);
-        mycontext.lineTo(230, 150);
-        mycontext.closePath();
-//         myContext.translate(200,200);
-
-
-        // the outline
-        mycontext.lineWidth = 10;
-        mycontext.strokeStyle = "rgba(102, 102, 102, 1)";
-        mycontext.stroke();
-
-        // the fill color
-        mycontext.fillStyle = "rgba(255, 204, 0, 1)";
-        mycontext.fill();
-    }
-    
-    drawTriangle();
-    
-    
-    
-
-    
-    
-
     //
     // draw a circle
     // start a new path;  
@@ -145,80 +173,9 @@ function draw() {
    harmObject.closePath();
    harmObject.fill();
 
+    
    // call again when available
    window.requestAnimationFrame(draw);
 }
 
 
-
-// kick it off
-window.requestAnimationFrame(draw);
-
-
-
-
-
-
-
-
-
-//     var myCan = document.querySelector("#animationCanvas");
-// var mycontext = myCan.getContext("2d");
- 
-// function drawTriangle() {
-//       mycontext.clearRect(0, 0, canvas.width, canvas.height);
-
-//   // the triangle
-//   mycontext.beginPath();
-//     mycontext.moveTo(200 + deltaX, 100 + deltaY);
-//   mycontext.lineTo(170 + deltaX, 150 + deltaY);
-//   mycontext.lineTo(230 + deltaX, 150 + deltaY);
-    
-// //   mycontext.moveTo(200, 100);
-// //   mycontext.lineTo(170, 150);
-// //   mycontext.lineTo(230, 150);
-//   mycontext.closePath();
- 
-//   // the outline
-//   mycontext.lineWidth = 10;
-//   mycontext.strokeStyle = "rgba(102, 102, 102, 1)";
-//   mycontext.stroke();
- 
-//   // the fill color
-//   mycontext.fillStyle = "rgba(255, 204, 0, 1)";
-//   mycontext.fill();
-// }
-    
-    
-    
-//     window.addEventListener("keydown", moveSomething, false);
-  
-    
-//     var deltaX = 0;
-// var deltaY = 0;
-    
-// function moveSomething(e) {
-//     switch(e.keyCode) {
-//         case 37:
-//             deltaX -= 2;
-//             break;
-//         case 38:
-//             deltaY -= 2;
-//             break;
-//         case 39:
-//             deltaX += 2;
-//             break;
-//         case 40:
-//             deltaY += 2;
-//             break;
-//     } 
-//         e.preventDefault();
-//     drawTriangle();
-
-
-// }  
-    
-//     function keysReleased(e) {
-//     // mark keys that were released
-//     keys[e.keyCode] = false;
-// }
