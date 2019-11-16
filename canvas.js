@@ -126,8 +126,8 @@ function draw() {
         //
         // right arrow functionality 
         // 
-        if(keyPr === 39 && startingX <= 460) { 
-            startingX = startingX + 20; 
+        if(keyPr === 39 && startingX <= 440) {  // changes 
+            startingX = startingX + 18; 
         }
         //
         // left arrow functionality 
