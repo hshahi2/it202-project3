@@ -7,6 +7,22 @@ background.src = "dark_scary.png";
 var randHeal = Math.floor((Math.random() * 400) + 50);
 var randHarm = Math.floor((Math.random() * 400) + 50);
 
+var temp = Math.abs(randHeal-randHarm);
+
+10
+
+
+
+do 
+    {
+        randHeal = Math.floor((Math.random() * 400) + 50);
+        temp = Math.abs(randHeal-randHarm);
+        
+        
+    } while (temp <=50);
+
+
+
 //
 // have that randomly generated number as the starting point 
 // for where the objects are going to come from 
@@ -15,19 +31,15 @@ var healX = randHeal, healY = 0;
 var harmX = randHarm, harmY = 0;
 var playerX = 200, playerY = 400;
 
-var c = document.getElementById("animationCanvas"); 
-var cc = document.getElementById("animationCanvas");
-
+var healCanvas = document.getElementById("animationCanvas"); 
+var harmCanvas = document.getElementById("animationCanvas");
 var ctx = document.getElementById("animationCanvas").getContext("2d");
 
-var healObject = c.getContext("2d");
-healObject.fillStyle = 'green';
+var healObject = healCanvas.getContext("2d");
+var harmObject = harmCanvas.getContext("2d"); 
 
-var harmObject = cc.getContext("2d"); 
-harmObject.fillStyle = 'red';
-
-console.log(c.width, c.height);
-console.log(cc.width, cc.height);
+console.log(healCanvas.width, healCanvas.height);
+console.log(harmCanvas.width, harmCanvas.height);
 console.log(ctx.width, ctx.height);
 
 // 
@@ -69,12 +81,12 @@ function draw() {
     //
     // handle edge condition
     // 
-    if (healY > c.width) {
-        healY -= c.width;
+    if (healY > healCanvas.width) {
+        healY -= healCanvas.width;
     }
 
-      if (harmY > cc.width) {   
-        harmY -= cc.width;
+      if (harmY > harmCanvas.width) {   
+        harmY -= harmCanvas.width;
     }
 
     //
@@ -153,29 +165,30 @@ function draw() {
     // start a new path;  
     //  comment out begin and close path to see what happens
     //  
-    healObject.beginPath();
-    harmObject.beginPath();
     
     
-   //
-   //  a square at the coordinates     
-   //            
-   healObject.rect(healX,healY,30,30);
-   healObject.closePath();
-   healObject.fill();
+    //
+    //  a square at the coordinates     
+    //
+    healObject.beginPath();                        
+    healObject.rect(healX,healY,30,30);
+    healObject.closePath();
+    healObject.fillStyle = 'green';
+    healObject.fill();
 
    
 
-   //
-   // a circle at the coordinates 
-   // 
-   harmObject.arc(harmX, harmY, 18, 0, Math.PI * 2);              
-   harmObject.closePath();
-   harmObject.fill();
-
+    //
+    // a circle at the coordinates 
+    // 
+    harmObject.beginPath();
+    harmObject.arc(harmX, harmY, 18, 0, Math.PI * 2);              
+    harmObject.closePath();
+    harmObject.fillStyle = 'red';
+    harmObject.fill();
     
-   // call again when available
-   window.requestAnimationFrame(draw);
+    // call again when available
+    window.requestAnimationFrame(draw);
 }
 
 
