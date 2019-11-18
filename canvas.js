@@ -1,3 +1,5 @@
+var myREC;
+var MY_SCORE;
 var background = new Image();
 background.src = "dark_scary.png";
 
@@ -9,17 +11,15 @@ var randHarm = Math.floor((Math.random() * 400) + 50);
 
 var temp = Math.abs(randHeal-randHarm);
 
-10
 
-
-
+//
+// make sure the heal and harm objects don't overlap 
+// 
 do 
-    {
-        randHeal = Math.floor((Math.random() * 400) + 50);
-        temp = Math.abs(randHeal-randHarm);
-        
-        
-    } while (temp <=50);
+{
+    randHeal = Math.floor((Math.random() * 400) + 50);
+    temp = Math.abs(randHeal-randHarm);
+} while (temp <=50);
 
 
 
@@ -62,6 +62,21 @@ function drawRect(startingX,startingY,wid,hei) {
     ct.fillRect(startingX, startingY, wid, hei); 
 }
 
+function getDistance(x1,y1,x2,y2)
+{
+    var xD = (x2-x1);
+    var yD = (y2-y1);
+    var power = Math.pow(xD,2)+Math.pow(yD,2);
+    return Math.sqrt(power);
+}
+
+
+
+function timeDisp() {
+  MY_SCORE++;
+//   document.write(MY_SCORE);
+}
+
 
 
 //
@@ -100,12 +115,16 @@ function draw() {
     //
     // scoring system for the game
     //
-    var MY_SCORE;
+    //  
+    MY_SCORE = 0;
     var myContext = document.getElementById("animationCanvas");
     var myText = myContext.getContext("2d");
     myText.font = "25px Arial";
     myText.fillStyle = "yellow";
-    myText.fillText("Score: ", 10, 50);
+    var theSCORE = setInterval(timeDisp,5000000);
+    myText.fillText("Score: " + theSCORE, 10, 50);
+    
+    
     
     //
     // lives system
@@ -157,8 +176,15 @@ function draw() {
     //  
   	// drawing rectangle at new position
   	// 
+  	myREC = drawRect(startingX,startingY,wid,hei);
     drawRect(startingX,startingY,wid,hei);
+        
+        
 };
+    
+    
+    
+    
     
     //
     // draw a circle
@@ -187,7 +213,31 @@ function draw() {
     harmObject.fillStyle = 'red';
     harmObject.fill();
     
-    // call again when available
+    
+    //
+    // collision detection 
+    // 
+
+    
+//     if (healObject.healX < myREC.startingX + myREC.wid  && healObject.healX + healCanvas.width  > myREC.startingX &&
+// 		healObject.healY < myREC.startingY + myREC.hei && healObject.healY + healCanvas.height > myREC.startingY) {
+//         myText.fillText("Score: " + MY_SCORE, 10, 50);
+// console.log("dfsd");
+// // The objects are touching
+// }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    // call again when available 
     window.requestAnimationFrame(draw);
 }
 
