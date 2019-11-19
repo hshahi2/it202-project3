@@ -16,9 +16,19 @@ var temp = Math.abs(randHeal-randHarm);
 //
 // for the second harm object coming from random location 
 //
-var rand = Math.floor((Math.random() * 400) + 50);
-var t1 = Math.abs(rand-randHeal);
-var t2 = Math.abs(rand-randHarm);
+var randHARM2 = Math.floor((Math.random() * 400) + 50);
+var t1HARM = Math.abs(randHARM2-randHeal);
+var t2HARM = Math.abs(randHARM2-randHarm);
+
+//
+// for the second heal object 
+// 
+var randHEAL2 = Math.floor((Math.random() * 400) + 50);
+var t1HEAL = Math.abs(randHEAL2-randHeal);
+var t2HEAL = Math.abs(randHEAL2-randHarm);
+var t3HEAL = Math.abs(randHEAL2-randHARM2); 
+
+
 
 
 //
@@ -30,20 +40,42 @@ do
 {
     randHeal = Math.floor((Math.random() * 400) + 50);
     temp = Math.abs(randHeal-randHarm);
-} while (temp <=50);
+} while (temp <=35);
 
-
+//
+// adding the second harm object 
+// 
 do 
 {
     randHeal = Math.floor((Math.random() * 400) + 50);
-    t1 = Math.abs(rand-randHeal);
-} while (t1 <=50);
-
+    t1HARM = Math.abs(randHARM2-randHeal);
+} while (t1HARM <=35);
 do 
 {
     randHarm = Math.floor((Math.random() * 400) + 50);
-    t2 = Math.abs(rand-randHarm);
-} while (t2 <=50);
+    t2HARM = Math.abs(randHARM2-randHarm);
+} while (t2HARM <=35);
+
+//
+// adding the second heal object and checking for overlapping 
+//
+do 
+{
+    randHeal = Math.floor((Math.random() * 400) + 50);
+    t1HEAL = Math.abs(randHEAL2-randHeal);
+} while (t1HEAL <=35);
+do 
+{
+    randHarm = Math.floor((Math.random() * 400) + 50);
+    t2HEAL = Math.abs(randHEAL2-randHarm);
+} while (t2HEAL <=35);
+do 
+{
+    randHARM2 = Math.floor((Math.random() * 400) + 50);
+    t3HEAL = Math.abs(randHEAL2-randHARM2);
+} while (t3HEAL <=35);
+
+
 
 
 //
@@ -52,7 +84,7 @@ do
 // 
 var healX = randHeal, healY = 0;
 var harmX = randHarm, harmY = 0;
-var harmY_TWO = 0;
+var harmY_TWO = 0, healY_TWO = 0;
 
 
 var theal ;//= randHeal;
@@ -63,6 +95,7 @@ var healCanvas = document.getElementById("animationCanvas");
 var harmCanvas = document.getElementById("animationCanvas");
 var ctx = document.getElementById("animationCanvas").getContext("2d");
 var anotherCanvas = document.getElementById("animationCanvas");
+var anotherCanvas2 = document.getElementById("animationCanvas");
 
 var healObject = healCanvas.getContext("2d");
 var harmObject = harmCanvas.getContext("2d"); 
@@ -185,7 +218,8 @@ function draw() {
         myText.fillText("Level: " + LEVEL, 200, 50);
          
         harmY_TWO +=2; 
-        
+        harmY +=3;
+        healY +=2;
         //
         // handle edge condition
         // 
@@ -196,7 +230,7 @@ function draw() {
         // add another harm object into the game 
         // 
         harmObject.beginPath(); 
-        harmObject.arc(rand, harmY_TWO, 18, 0, Math.PI * 2);              
+        harmObject.arc(randHARM2, harmY_TWO, 18, 0, Math.PI * 2);              
         harmObject.closePath();
         harmObject.fillStyle = 'red';
         harmObject.fill();
@@ -206,15 +240,48 @@ function draw() {
         LEVEL = 3;
         myText.fillText("Level: " + LEVEL, 200, 50);
         
+        if (harmY_TWO > anotherCanvas.width) {   
+            harmY_TWO -= anotherCanvas.width;
+        }
+        
+        if (healY_TWO > anotherCanvas2.width) {   
+            healY_TWO -= anotherCanvas2.width;
+        }
+        
+        harmY_TWO +=3; 
+        harmY +=5;
+        healY +=4;
+        healY_TWO +=4;
+        
         //
         // add more objects into the game 
         // 
         harmObject.beginPath(); 
-        harmObject.arc(10, harmY, 18, 0, Math.PI * 2);              
+        harmObject.arc(randHARM2, harmY_TWO, 18, 0, Math.PI * 2);              
         harmObject.closePath();
         harmObject.fillStyle = 'red';
         harmObject.fill();
         
+//         harmObject.beginPath();
+//         harmObject.arc(370, harmY, 18, 0, Math.PI * 2);              
+//         harmObject.closePath();
+//         harmObject.fillStyle = 'red';
+//         harmObject.fill();
+        
+        harmObject.beginPath(); 
+        harmObject.arc(15, harmY, 18, 0, Math.PI * 2);              
+        harmObject.closePath();
+        harmObject.fillStyle = 'red';
+        harmObject.fill();
+        
+        //
+        // add a new heal object into the game
+        // 
+        healObject.beginPath();   
+        healObject.rect(randHEAL2,healY,30,30);
+        healObject.closePath();
+        healObject.fillStyle = 'green';
+        healObject.fill();
     }
     
     
@@ -279,7 +346,6 @@ function draw() {
     healObject.closePath();
     healObject.fillStyle = 'green';
     healObject.fill();
-
     
     //
     // a circle at the coordinates. this is the harm objects 
@@ -289,15 +355,6 @@ function draw() {
     harmObject.closePath();
     harmObject.fillStyle = 'red';
     harmObject.fill();
-    
-    
-//     harmObject.beginPath();
-//     harmObject.arc(rand, harmY, 18, 0, Math.PI * 2);              
-//     harmObject.closePath();
-//     harmObject.fillStyle = 'red';
-//     harmObject.fill();
-    
-    
     
     //
     // collision detection 
