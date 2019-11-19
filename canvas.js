@@ -250,7 +250,7 @@ function draw() {
         
         harmY_TWO +=3; 
         harmY +=5;
-        healY +=4;
+        healY +=3;
         healY_TWO +=4;
         
         //
@@ -262,11 +262,12 @@ function draw() {
         harmObject.fillStyle = 'red';
         harmObject.fill();
         
-//         harmObject.beginPath();
-//         harmObject.arc(370, harmY, 18, 0, Math.PI * 2);              
-//         harmObject.closePath();
-//         harmObject.fillStyle = 'red';
-//         harmObject.fill();
+        
+        harmObject.beginPath();
+        harmObject.arc(380, harmY, 18, 0, Math.PI * 2);              
+        harmObject.closePath();
+        harmObject.fillStyle = 'red';
+        harmObject.fill();
         
         harmObject.beginPath(); 
         harmObject.arc(15, harmY, 18, 0, Math.PI * 2);              
@@ -279,6 +280,12 @@ function draw() {
         // 
         healObject.beginPath();   
         healObject.rect(randHEAL2,healY,30,30);
+        healObject.closePath();
+        healObject.fillStyle = 'green';
+        healObject.fill();
+        
+        healObject.beginPath();   
+        healObject.rect(randHEAL2+50,healY,30,30);
         healObject.closePath();
         healObject.fillStyle = 'green';
         healObject.fill();
@@ -331,16 +338,6 @@ function draw() {
     //
     //  a square at the coordinates     
     //
-    
-    if (theal == healX)
-        {
-            randHeal = Math.floor((Math.random() * 400) + 50);
-            theal = healX;
-
-        }
-//         theal = healX;
-
-
     healObject.beginPath();   
     healObject.rect(healX,healY,30,30);
     healObject.closePath();
