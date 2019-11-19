@@ -1,5 +1,7 @@
 var myREC;
+var LEVEL;
 var MY_SCORE;
+var theSCORE;
 var background = new Image();
 background.src = "dark_scary.png";
 
@@ -11,9 +13,18 @@ var randHarm = Math.floor((Math.random() * 400) + 50);
 
 var temp = Math.abs(randHeal-randHarm);
 
+//
+// for the second harm object coming from random location 
+//
+var rand = Math.floor((Math.random() * 400) + 50);
+var t1 = Math.abs(rand-randHeal);
+var t2 = Math.abs(rand-randHarm);
+
 
 //
-// make sure the heal and harm objects don't overlap 
+// make sure the heal and harm objects don't overlap since 
+// there are going to be more then two moving objects so we need
+// to make sure they don't overlap
 // 
 do 
 {
@@ -22,6 +33,18 @@ do
 } while (temp <=50);
 
 
+do 
+{
+    randHeal = Math.floor((Math.random() * 400) + 50);
+    t1 = Math.abs(rand-randHeal);
+} while (t1 <=50);
+
+do 
+{
+    randHarm = Math.floor((Math.random() * 400) + 50);
+    t2 = Math.abs(rand-randHarm);
+} while (t2 <=50);
+
 
 //
 // have that randomly generated number as the starting point 
@@ -29,11 +52,17 @@ do
 // 
 var healX = randHeal, healY = 0;
 var harmX = randHarm, harmY = 0;
+var harmY_TWO = 0;
+
+
+var theal ;//= randHeal;
+var tharm ;//= randHarm;
 var playerX = 200, playerY = 400;
 
 var healCanvas = document.getElementById("animationCanvas"); 
 var harmCanvas = document.getElementById("animationCanvas");
 var ctx = document.getElementById("animationCanvas").getContext("2d");
+var anotherCanvas = document.getElementById("animationCanvas");
 
 var healObject = healCanvas.getContext("2d");
 var harmObject = harmCanvas.getContext("2d"); 
@@ -62,6 +91,10 @@ function drawRect(startingX,startingY,wid,hei) {
     ct.fillRect(startingX, startingY, wid, hei); 
 }
 
+
+//
+// function for getting distance of two objects 
+// 
 function getDistance(x1,y1,x2,y2)
 {
     var xD = (x2-x1);
@@ -70,13 +103,12 @@ function getDistance(x1,y1,x2,y2)
     return Math.sqrt(power);
 }
 
-
-
+//
+// function for incrementing the score 
+// 
 function timeDisp() {
-  MY_SCORE++;
-//   document.write(MY_SCORE);
+  MY_SCORE = MY_SCORE + 1;
 }
-
 
 
 //
@@ -104,6 +136,8 @@ function draw() {
         harmY -= harmCanvas.width;
     }
 
+    
+         
     //
     // draw objects
     // draw the background image
@@ -121,10 +155,10 @@ function draw() {
     var myText = myContext.getContext("2d");
     myText.font = "25px Arial";
     myText.fillStyle = "yellow";
-    var theSCORE = setInterval(timeDisp,5000000);
+    theSCORE = setInterval(timeDisp,5000000);
     myText.fillText("Score: " + theSCORE, 10, 50);
     
-    
+  
     
     //
     // lives system
@@ -138,10 +172,50 @@ function draw() {
     //
     // level 
     // 
-    var LEVEL = 1;
+    LEVEL = 0;
     myText.font = "25px Arial";
     myText.fillStyle = "yellow";
-    myText.fillText("Level: " + LEVEL, 200, 50);
+    
+    if (theSCORE <= 600) {
+        LEVEL = 1;
+        myText.fillText("Level: " + LEVEL, 200, 50);
+    }
+    else if (theSCORE > 600 && theSCORE <= 1500) {
+        LEVEL = 2;
+        myText.fillText("Level: " + LEVEL, 200, 50);
+         
+        harmY_TWO +=2; 
+        
+        //
+        // handle edge condition
+        // 
+        if (harmY_TWO > anotherCanvas.width) {   
+            harmY_TWO -= anotherCanvas.width;
+        }
+        //
+        // add another harm object into the game 
+        // 
+        harmObject.beginPath(); 
+        harmObject.arc(rand, harmY_TWO, 18, 0, Math.PI * 2);              
+        harmObject.closePath();
+        harmObject.fillStyle = 'red';
+        harmObject.fill();
+    
+    }
+    else  {
+        LEVEL = 3;
+        myText.fillText("Level: " + LEVEL, 200, 50);
+        
+        //
+        // add more objects into the game 
+        // 
+        harmObject.beginPath(); 
+        harmObject.arc(10, harmY, 18, 0, Math.PI * 2);              
+        harmObject.closePath();
+        harmObject.fillStyle = 'red';
+        harmObject.fill();
+        
+    }
     
     
     //
@@ -171,41 +245,44 @@ function draw() {
   	// clearing anything drawn on canvas
     // comment this below do draw path 
     // 
-    ct.clearRect(0,0, 400, 400);
+//     ct.clearRect(0,0, 400, 400);
   
     //  
   	// drawing rectangle at new position
   	// 
-  	myREC = drawRect(startingX,startingY,wid,hei);
-    drawRect(startingX,startingY,wid,hei);
+  	drawRect(startingX,startingY,wid,hei);
+//         myREC;
+//     drawRect(startingX,startingY,wid,hei);
         
         
-};
-    
-    
-    
-    
-    
+};   
     //
     // draw a circle
     // start a new path;  
     //  comment out begin and close path to see what happens
     //  
-    
-    
     //
     //  a square at the coordinates     
     //
-    healObject.beginPath();                        
+    
+    if (theal == healX)
+        {
+            randHeal = Math.floor((Math.random() * 400) + 50);
+            theal = healX;
+
+        }
+//         theal = healX;
+
+
+    healObject.beginPath();   
     healObject.rect(healX,healY,30,30);
     healObject.closePath();
     healObject.fillStyle = 'green';
     healObject.fill();
 
-   
-
+    
     //
-    // a circle at the coordinates 
+    // a circle at the coordinates. this is the harm objects 
     // 
     harmObject.beginPath();
     harmObject.arc(harmX, harmY, 18, 0, Math.PI * 2);              
@@ -214,28 +291,21 @@ function draw() {
     harmObject.fill();
     
     
+//     harmObject.beginPath();
+//     harmObject.arc(rand, harmY, 18, 0, Math.PI * 2);              
+//     harmObject.closePath();
+//     harmObject.fillStyle = 'red';
+//     harmObject.fill();
+    
+    
+    
     //
     // collision detection 
     // 
 
     
-//     if (healObject.healX < myREC.startingX + myREC.wid  && healObject.healX + healCanvas.width  > myREC.startingX &&
-// 		healObject.healY < myREC.startingY + myREC.hei && healObject.healY + healCanvas.height > myREC.startingY) {
-//         myText.fillText("Score: " + MY_SCORE, 10, 50);
-// console.log("dfsd");
-// // The objects are touching
-// }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
+
     
     // call again when available 
     window.requestAnimationFrame(draw);
