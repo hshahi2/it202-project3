@@ -285,7 +285,7 @@ function draw() {
         healObject.fill();
         
         healObject.beginPath();   
-        healObject.rect(randHEAL2+50,healY,30,30);
+        healObject.rect(470,healY,30,30);
         healObject.closePath();
         healObject.fillStyle = 'green';
         healObject.fill();
